@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="FAVS"
+  id="myeclipse.1453344130154"
+  context-root="/FAVS"
+  j2ee-spec="6.0"
+  archive="FAVS.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

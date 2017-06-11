@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="favs" extends="json-default">
+	
+		<!-- 公共的跳转 -->
+		<global-results>
+			<result name="aindex">/WEB-INF/main/aindex.jsp</result>
+		</global-results>
+		
+		<!--用来完成系统请求转发的action,所有的请求都交给execute()方法
+			两个 * 表示两个参数，｛1｝｛2｝分别对应接收这两个参数-->
+		<action name="send_*_*" class="sendAction">
+			<result name="send">/WEB-INF/{1}/{2}.jsp</result>
+		</action>
+		
+		<!-- 管理员 -->
+		<action name="admins_*" class="adminsAction" method="{1}">
+			<result name="index">/index.jsp</result>
+			<result name="update">/WEB-INF/admins/update.jsp</result>
+		</action>
+		
+		<!-- 商品类别 -->
+		<action name="gtype_*" class="gtypeAction" method="{1}">
+			<result name="index">/index.jsp</result>
+			
+			<!-- 返回json数据，先添加json包，然后继承json-default -->
+			<result name="jsonMap" type="json">
+				<!-- name=root是固定的 -->
+				<param name="root">pageMap</param>
+			</result>
+			
+			<result name="jsonList" type="json">
+				<param name="root">jsonList</param>
+			</result>
+			
+			<!-- 返回流数据 -->
+			<result name="stream" type="stream">
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<!-- 供应商 -->
+		<action name="supplier_*" class="supplierAction" method="{1}">
+			<result name="supplierInfo">/supplier/supplierInfo.jsp</result>
+			
+			<result name="jsonMap" type="json">
+				<param name="root">pageMap</param>
+			</result>
+			
+			<result name="jsonList" type="json">
+				<param name="root">jsonList</param>
+			</result>
+			
+			<result name="stream" type="stream">
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<!-- 购买者 -->
+		<action name="consumer_*" class="consumerAction" method="{1}">
+			<result name="consumerInfo">/consumer/consumerInfo.jsp</result>
+			<result name="jsonMap" type="json">
+				<param name="root">pageMap</param>
+			</result>
+			
+			<result name="jsonList" type="json">
+				<param name="root">jsonList</param>
+			</result>
+			
+			<result name="stream" type="stream">
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<!-- 求购信息 -->
+		<action name="buy_*" class="buyAction" method="{1}">
+			<result name="index" type="redirect">${FAVS}/index.jsp</result>
+			<result name="buy">/supplier/buy.jsp</result>
+			<result name="jsonMap" type="json">
+				<param name="root">pageMap</param>
+				<!-- 配置黑名单，过滤不需要的选项，以免泄漏 。支持正则表达式 : \d一个数字，+一个或多个，?0或1，*一或多 ，[ABC]自定义类型，必须是ABC 中的一个， . 任意字符-->
+				<param name="excludeProperties">
+					<!-- rows[0].consumer.cpassword -->
+					rows\[\d+\]\.consumer\.cpassword
+				</param>
+			</result>
+			
+			<result name="jsonList" type="json">
+				<param name="root">jsonList</param>
+			</result>
+			
+			<result name="stream" type="stream">
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<!-- 新闻信息 -->
+		<action name="news_*" class="newsAction" method="{1}">
+			<result name="index">/supplier/index.jsp</result>
+			<result name="news">/news.jsp</result>
+			<result name="jsonMap" type="json">
+				<param name="root">pageMap</param>
+				<!-- 配置黑名单，过滤不需要的选项，以免泄漏 。支持正则表达式 : \d一个数字，+一个或多个，?0或1，*一或多 ，[ABC]自定义类型，必须是ABC 中的一个， . 任意字符-->
+				<param name="excludeProperties">
+					<!-- rows[0].supplier.spassword -->
+					rows\[\d+\]\.supplier\.spassword
+				</param>
+			</result>
+			
+			<result name="jsonList" type="json">
+				<param name="root">jsonList</param>
+			</result>
+			
+			<result name="stream" type="stream">
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		
+		<!-- 商品信息 -->
+		<action name="goods_*" class="goodsAction" method="{1}">
+			<result name="index">/index.jsp</result>
+			<result name="goods">${FAVS}/goods.jsp</result>
+			<result name="jsonMap" type="json">
+				<param name="root">pageMap</param>
+				<!-- 配置黑名单，过滤不需要的选项，以免泄漏 。支持正则表达式 : \d一个数字，+一个或多个，?0或1，*一或多 ，[ABC]自定义类型，必须是ABC 中的一个， . 任意字符-->
+				<param name="excludeProperties">
+					<!-- rows[0].supplier.spassword -->
+					rows\[\d+\]\.supplier\.spassword
+				</param>
+			</result>
+			
+			<result name="jsonList" type="json">
+				<param name="root">jsonList</param>
+			</result>
+			
+			<result name="stream" type="stream">
+				<param name="inputName">inputStream</param>
+			</result>
+			
+			<result name="detail">/detail.jsp</result>
+			<result name="detail2">/supplier/detail.jsp</result>
+			<result name="updategoods">/supplier/updategoods.jsp</result>
+			<result name="index2">/supplier/index.jsp</result>
+		</action>
+		
+		<!-- 购物项 -->
+		<action name="item_*" class="itemAction" method="{1}">
+			<result name="showCar" type="redirect">/showCar.jsp</result>
+		</action>
+		<!-- 购物车 -->
+		<action name="car_*" class="carAction" method="{1}">
+			<result name="bank" type="redirect">/consumer/bank.jsp</result>
+			<result name="orderInfo">/consumer/orderInfo.jsp</result>
+			<result name="order">/consumer/orderInfo.jsp</result>
+			<result name="supplierOrderInfo">/supplier/orderInfo.jsp</result>
+			<result name="supplierOrder">/supplier/orderInfo.jsp</result>
+		</action>
+		<action name="pay_*" class="payAction" method="{1}">
+			<result name="pay">/consumer/pay.jsp</result>
+		</action>
+		
+		<!-- 用户-->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="index">/index.jsp</result>
+			<result name="aindex">/WEB-INF/main/aindex.jsp</result>
+			<result name="login">/login.jsp</result>
+			<result name="supp">/supplier/index.jsp</result>
+		</action>
+	</package>
+</struts>    
